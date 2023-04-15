@@ -19,35 +19,42 @@
         <div class = "navbar">
             <img src="images/logo.png" class="logo" alt="logo">
             <div>
-                <a href="home.html"><button type="button">Home</button></a>
+                <a href="index.html"><button type="button">Home</button></a>
                 <a href="login1.html"><button type="button">Log In</button></a>
                 <a href="signup.html"><button type="button">Sign Up</button></a>
             </div>
         </div>
 
-        <div class="user_info">
+        <div class="signup_info">
             <h1>Welcome!</h1>
+
             <form id="sendsns-form">
-                <label for="email" class="fs-1">Your Email</label>
-                <input type="email" class="form-control fs-1" id="email"/>
-                <button id="sendsns_btn" type="submit" class="fs-1">Send SNS</button>
-            </form>
+                <label for="email" class="fs-1">Email</label>
+                <input type="email" class="form-control fs-1" id="email" required/>
+<!--                <button type="button" onclick="sendVerificationCode()">Send SNS</button>-->
+                <a href="#"  style="font-size: small; color: cornflowerblue" onclick="sendVerificationCode()">Send SNS</a>
+            </form><br>
 
-            <form id="signup-form">
-                <label class="fs-1" for="sns">Email SNS:</label>
-                <input class="fs-1" type="text" id="sns" name="sns" required><br><br>
-                <button id="login_btn" type="submit" class="fs-1">Sign Up</button>
-            </form>
-            <div class="mb-1" id="insert">
-                <label for="passwd" class="fs-1">Set Your Password</label>
-                <input type="password" class="form-control fs-1" id="passwd"/>
-            </div>
 
-<!--            <div class="mb-1" id="sign_email">-->
-<!--                <label for="email" class="fs-1">Your Email</label>-->
-<!--                <input type="email" class="form-control fs-1" id="email"/>-->
+<!--            <div class="mb-1" id="insert">-->
+<!--                <label for="setpasswd" class="fs-1">Set Your Password</label>-->
+<!--                <input type="password" class="form-control fs-1" id="setpasswd"/>-->
 <!--            </div>-->
 
+<!--            -->
+<!--                <button id="signup_btn" type="submit" class="fs-1">Sign Up</button>-->
+<!--            </div>-->
+
+            <form id="setpassword-form">
+                <label class="fs-1" for="setpasswd">Password:</label>
+                <input class="fs-1" type="password" id="setpasswd" name="password" required>
+            </form><br>
+
+            <form id="signup-form">
+                <label class="fs-1" for="sns">SNS</label>
+                <input class="fs-1" type="text" id="sns" name="sns" required><br><br>
+                <button class="fs-1" type="submit" id="login-submit">Sign Up</button>
+            </form>
 
             <p class="fs-2"> Already have an account? <a href="login1.html" style="color: cornflowerblue">Log In</a> Here. </p>
         </div>

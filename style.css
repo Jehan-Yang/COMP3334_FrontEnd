@@ -108,6 +108,39 @@
     border-radius: 15px;
     border: none;
 }
+.signup_info{
+    width: 100%;
+    position: absolute;
+    top: 60%;
+    text-align: center;
+    transform: translateY(-50%);
+    text-decoration: none;
+    color: #fff;
+    font-family: "Andale Mono",serif;
+}
+.signup_info h1{
+    font-size: 70px;
+    font-weight: bolder;
+
+}
+
+.signup_info input{
+    font-family: "Andale Mono",serif;
+    color:#fff;
+    background-color: transparent;
+    padding-left: 8px;
+    border-radius: 8px;
+    border-style: groove;
+    border-color: white;
+}
+.signup_info button{
+    font-family: "Andale Mono",serif;
+    color: white;
+    padding: 15px 25px;
+    background-color: #4269e2;
+    border-radius: 15px;
+    border: none;
+}
 
 .fs-1 {
     font-size: calc(1rem + 0.3vw) !important;

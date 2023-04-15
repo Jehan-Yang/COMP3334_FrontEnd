@@ -1,6 +1,6 @@
 const loginForm = document.getElementById("login-form");
 const passwordForm = document.getElementById("password-form");
-const userIdInput = document.getElementById("user-id");
+const userIdInput = document.getElementById("login-email");
 const passwordInput = document.getElementById("password");
 
 function validateUserId() {
