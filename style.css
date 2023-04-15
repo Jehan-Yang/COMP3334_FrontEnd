@@ -6,8 +6,8 @@
     background-position: center;
 }
 .logo{
-        width: 200px;
-        height: auto
+    width: 200px;
+    height: auto
 }
 .navbar{
     width: 85%;
@@ -68,4 +68,45 @@
     margin: 20px auto;
     font-weight: 100;
     line-height: 25px;
+}
+.user_info{
+    width: 100%;
+    position: absolute;
+    top: 60%;
+    text-align: center;
+    transform: translateY(-50%);
+    text-decoration: none;
+    color: #fff;
+    font-family: "Andale Mono",serif;
+}
+.user_info h1{
+    font-size: 70px;
+    font-weight: bolder;
+}
+
+.user_info input{
+    font-family: "Andale Mono",serif;
+    color:#fff;
+    background-color: transparent;
+    padding-left: 8px;
+    border-radius: 8px;
+    border-style: groove;
+    border-color: white;
+}
+.user_info button{
+    font-family: "Andale Mono",serif;
+    color: white;
+    padding: 15px 25px;
+    background-color: #4269e2;
+    border-radius: 15px;
+    border: none;
+}
+.fs-1 {
+    font-size: calc(1rem + 0.3vw) !important;
+}
+.fs-2 {
+    font-size: calc(0.5rem + 0.3vw) !important;
+}
+.mb-1 {
+    margin-bottom: 1rem !important;
 }
