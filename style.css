@@ -1,0 +1,71 @@
+.banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("images/bg.png");
+    background-size: cover;
+    background-position: center;
+}
+.logo{
+        width: 200px;
+        height: auto
+}
+.navbar{
+    width: 85%;
+    margin: auto;
+    padding: 35px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar button{
+    list-style: none;
+    color: #fff;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+    font-family: "Andale Mono",serif;
+    font-weight: bold;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+}
+/*.navbar button a{*/
+/*    text-decoration: none;*/
+/*    color: #fff;*/
+/*    font-family: "Andale Mono",serif;*/
+/*    font-weight: bold;*/
+/*    font-size: 18px;*/
+/*}*/
+.navbar button::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: cornflowerblue;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+.navbar button:hover::after{
+    width: 100%;
+}
+.slogan{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-family: "Andale Mono",serif;
+}
+.slogan h1{
+    font-size: 70px;
+    margin-top: 80px;
+    font-weight: bolder;
+}
+.slogan p{
+    margin: 20px auto;
+    font-weight: 100;
+    line-height: 25px;
+}
