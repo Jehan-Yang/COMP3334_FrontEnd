@@ -8,3 +8,6 @@ document.getElementById("owner1").innerHTML="Authority:"+authority1;
 document.getElementById("price1").innerHTML="Price:"+pri1;
 document.getElementById("buyer").innerHTML="Buyer:"+user;
 
+
+
+
