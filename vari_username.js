@@ -19,7 +19,6 @@ function validateUserId() {
 
 passwordForm.addEventListener("submit", function(event) {
     event.preventDefault(); // 阻止表单提交
-
     const password = passwordInput.value.trim();
     if (password === "123456") {
         // 如果密码正确，则重定向到home.html页面

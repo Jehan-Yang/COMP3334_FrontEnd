@@ -1,0 +1,1 @@
+var elements = rootElement.getElementsByClassName(names)
