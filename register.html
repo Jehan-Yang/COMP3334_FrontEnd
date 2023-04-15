@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Registration Page</title>
+</head>
+<body>
+<h1>Registration Page</h1>
+<form>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <input type="submit" value="Register" onclick="registerUser(event)">
+</form>
+
+<script>
+    function registerUser(event) {
+        event.preventDefault(); // prevent form submission
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        // here you can perform validation and submit data to server to store it
+        alert(`Registration successful for user ${username}.`);
+        window.location.href = "index.html"; // redirect to index page
+    }
+</script>
+</body>
+</html>
