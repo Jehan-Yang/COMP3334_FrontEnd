@@ -28,45 +28,127 @@
         <div class="user_info">
             <h1>Welcome!</h1>
             <div class="mb-1" id="insert">
-                <label for="passwd" class="fs-1">Set Your Password</label>
-                <input type="password" class="form-control fs-1" id="passwd"/>
-            </div>
-            <div class="mb-1" id="insert">
-                <label for="repasswd" class="fs-1">repeat Your Password</label>
-                <input type="password" class="form-control fs-1" id="repasswd"/>
-            </div>
-            <div class="mb-1" id="insert">
-                <label for="email" class="fs-1">Set Your email</label>
+                <label for="email" class="fs-1">Set your email</label>
                 <input type="text" class="form-control fs-1" id="email"/>
+                <div id="emailHint" style="color: rgb(255, 255, 255);"></div>
+                <p><input type="button" value="Verify" class="form-control fs-1" onclick="verify()"></p>
             </div>
-
-            <p><input type="button" value="Verify" onclick="verify()"></p>
-
             <div class="mb-1" id="insert">
-                <label for="code" class="fs-1">Set Your Password</label>
-                <input type="text" class="form-control fs-1" id="code"/>
+                <label for="code" class="fs-1">Enter verification code</label>
+                <input type="text" class="form-control fs-1" id="code" onchange="checkCode()"/>
+                <div id="codeHint" style="color: rgb(255, 255, 255);"></div>
+                
             </div>
+            <div class="mb-1" id="insert">
+                <label for="passwd" class="fs-1">Set your Password</label>
+                <input type="password" class="form-control fs-1" id="passwd" onchange="checkPwd()"/>
+                <div id="passwdHint" style="color: rgb(255, 255, 255);"></div>
+            </div>
+            <div class="mb-1" id="insert">
+                <label for="repasswd" class="fs-1">repeat your Password</label>
+                <input type="password" class="form-control fs-1" id="repasswd" onchange="checkRepwd()"/>
+                <div id="repasswdHint" style="color: rgb(255, 255, 255);"></div>
+            </div>
+            
+            
             <p class="fs-2"> Already have an account? <a href="login.html" style="color: cornflowerblue">Log In</a> Here. </p>
             
             <button id="signup_btn" type="submit" class="fs-1">Sign Up</button>
         </div>
     </div>
-    <!-- wumeijia2019@hotmail.com -->
-    <script rel="javascript" type="text/javascript">
-        function verify() {
+    
+</body>
+</html>
+
+<!-- wumeijia2019@hotmail.com -->
+<script rel="javascript" type="text/javascript">
+    var resultcode;
+    var jsObject;
+    function verify() {
+        if(checkEmail()){
             $.ajax({
                 type: "get",
-                dataType: "json",
+                dataType: "json",//json or text?
                 url: "http://10.12.0.105:8088/user-login/email-verify",//url
                 data:  {'to':$('#email').val()},
-                complete: function(xhr, textStatus) {
-                    console.log(xhr.status);
+                complete: function(data) {
+                    console.log(data);
+                    jsObject = JSON.parse(data);
+                    resultcode = jsObject.resultCode;
+                    // let data = {"name":"张三","age":"16"};
+                    // var name = eval('data.name');
+                    // console.log(name);
+                    // //输出 张三
+                    document.getElementById("emailHint").innerHTML="Varification email sent";
                 },
                 error: function (data) {
                     console.log(data);
+                    jsObject = JSON.parse(data);
+                    resultcode = jsObject.resultCode;
+                    document.getElementById("emailHint").innerHTML="error";
                 }
             });
+        
         }
-    </script>
-</body>
-</html>
+    }
+    function checkCode() {
+        if(resultCode){//resultcode?
+            var reg = /^\d{6}/;
+            var code=document.getElementById("code").value;
+            if (!reg.test(code)){
+                    $.ajax({
+                    type: "get",
+                    dataType: "json",
+                    url: "http://10.12.0.105:8088/user-login/register",//url
+                    data:  {'user':$('#email').val(),'verificationCode':$('#code').val()},//user?
+                    complete: function(data) {
+                        console.log(data);
+                        jsObject = JSON.parse(data);
+                        resultcode = jsObject.resultCode;
+                        if(resultcode == "1"){//resultcode?
+                            document.getElementById("codeHint").innerHTML="OK";
+                        }else{
+                            document.getElementById("codeHint").innerHTML="Wrong code";
+                        }
+                    },
+                    error: function (data) {
+                        alert("error");
+                        console.log(data);
+                    }
+                });
+            }
+        }
+    }
+    function checkPwd() {
+        var pwd=document.getElementById("passwd").value;
+        var reg= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/;
+        // var reg=/^[a-zA-Z0-9]{4,12}$/;
+        if (!reg.test(pwd)){
+            document.getElementById("passwdHint").innerHTML="At least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character";
+            return false;
+        }
+        document.getElementById("passwdHint").innerHTML="OK";
+        return true; 
+    }
+
+
+    function checkRepwd(){
+        var repwd=document.getElementById("repasswd").value;
+        var pwd=document.getElementById("passwd").value;
+        if (pwd!=repwd){
+            document.getElementById("repasswdHint").innerHTML="Inconsistent with previous input";
+            return false;}
+        document.getElementById("repasswdHint").innerHTML="OK";
+        }
+
+    function checkEmail(){
+        var email=document.getElementById("email").value;
+        var reg=/^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/;
+        if (!reg.test(email)){
+            document.getElementById("emailHint").innerHTML="Email format is incorrect";
+            return false;}
+        document.getElementById("emailHint").innerHTML="OK";
+        return true;}
+
+
+</script>
