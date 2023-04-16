@@ -34,12 +34,6 @@
                 <p><input type="button" value="Verify" class="form-control fs-1" onclick="emailVerify()"></p>
             </div>
             <div class="mb-1" id="insert">
-                <label for="code" class="fs-1">Enter verification code</label>
-                <input type="text" class="form-control fs-1" id="code" onchange="checkCode()" type="number" oninput="if(value.length>6)value=value.slice(0,6)"/>
-                <div id="codeHint" style="color: rgb(255, 255, 255);"></div>
-                
-            </div>
-            <div class="mb-1" id="insert">
                 <label for="passwd" class="fs-1">Set your Password</label>
                 <input type="password" class="form-control fs-1" id="passwd" onchange="checkPwd()"/>
                 <div id="passwdHint" style="color: rgb(255, 255, 255);"></div>
@@ -50,10 +44,17 @@
                 <div id="repasswdHint" style="color: rgb(255, 255, 255);"></div>
             </div>
             
+            <div class="mb-1" id="insert">
+                <label for="code" class="fs-1">Enter verification code</label>
+                <input type="text" class="form-control fs-1" id="code" type="number" oninput="if(value.length>6)value=value.slice(0,6)"/>
+                <div id="codeHint" style="color: rgb(255, 255, 255);"></div>
+            </div>
+            
+            
             
             <p class="fs-2"> Already have an account? <a href="login.html" style="color: cornflowerblue">Log In</a> Here. </p>
             
-            <button id="signup_btn" type="submit" class="fs-1" onclick="check()">Sign Up</button>
+            <button id="signup_btn" type="submit" class="fs-1" onclick="signup()">Sign Up</button>
         </div>
     </div>
     
@@ -75,46 +76,40 @@
                 data:  {'to':$('#email').val()},
                 complete: function(data) {
                     console.log(data);
-                    jsObject = JSON.parse(data);
-                    email_resultcode = jsObject.resultCode;
+                    email_resultcode = data.responseJSON.resultCode;
+                    // email_resultcode = eval('data.resultCode');
                     if(email_resultcode == "1"){//resultcode?
-                            document.getElementById("codeHint").innerHTML="OK";
+                        document.getElementById("emailHint").innerHTML="Varification email sent";
                         }else{
-                            document.getElementById("codeHint").innerHTML="Email has been registered";
+                            document.getElementById("emailHint").innerHTML="Email has been registered";
                         }
-                    // let data = {"name":"张三","age":"16"};
-                    // var name = eval('data.name');
-                    // console.log(name);
-                    // //输出 张三
-                    document.getElementById("emailHint").innerHTML="Varification email sent";
                 },
                 error: function (data) {
                     console.log(data);
-                    jsObject = JSON.parse(data);
-                    email_resultcode = jsObject.resultCode;
                     document.getElementById("emailHint").innerHTML="error";
                 }
             });
         
         }
     }
-    function checkCode() {
-        if(email_resultcode){//resultcode?
+    //$('#passwd').val()
+    function signup() {
+        if(email_resultcode=="1"&&check()){//resultcode?
             var reg = /^\d{6}/;
             var code=document.getElementById("code").value;
             if (reg.test(code)){
                 document.getElementById("codeHint").innerHTML="verifying...";
                     $.ajax({
-                    type: "get",
+                    type: "post",
                     dataType: "json",
                     url: "http://10.12.0.105:8088/user-login/register",//url
-                    data:  {'user':$('#email').val(),'verificationCode':$('#code').val()},//user?
+                    data:  {'userEmail':$('#email').val(),'userPassword':$('#passwd').val(),'verificationCode':$('#code').val()},//user?
                     complete: function(data) {
                         console.log(data);
-                        jsObject = JSON.parse(data);
-                        resultcode = jsObject.resultCode;
-                        if(resultcode == "1"){//resultcode?
+                        verify_resultcode = data.responseJSON.resultCode;
+                        if(verify_resultcode == "1"){//resultcode?
                             document.getElementById("codeHint").innerHTML="OK";
+                            alert("Sign up completed.");
                             return true;
                         }else{
                             document.getElementById("codeHint").innerHTML="Wrong code";
@@ -129,6 +124,7 @@
         }
         return false;
     }
+
     function checkPwd() {
         var pwd=document.getElementById("passwd").value;
         var reg= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#()^])[A-Za-z\d$@$!%*?&#()^]{8,}$/;
@@ -149,7 +145,7 @@
             document.getElementById("repasswdHint").innerHTML="Inconsistent with previous input";
             return false;}
         document.getElementById("repasswdHint").innerHTML="OK";
-        return ture;
+        return true;
         }
 
     function checkEmail(){
@@ -162,10 +158,9 @@
         return true;}
 
     function check(){
-        if (!checkCode()||!checkEmail()||!checkPwd()||!checkRepwd()){
+        if (!checkEmail()||!checkPwd()||!checkRepwd()){
             alert("Please fill all content!");
             return false;}
-            alert("Sign up completed.");
             return true;}
 
 

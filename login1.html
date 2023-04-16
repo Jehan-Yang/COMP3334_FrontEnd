@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -19,54 +20,119 @@
 
         <div class="user_info">
             <h1>Welcome Back</h1>
-
-            <form id="login-form">
-                <label for="login-email" class="fs-1">Email</label>
-                <input class="fs-1" type="text" id="login-email" name="login-email" required><br><br>
-                <button class="fs-1" type="button" id="next-button" onclick="validateUserId()">Next</button>
-            </form>
-            <form id="password-form" style="display:none;">
+            <div class="mb-1" id="insert">
+                <label for="email" class="fs-1">Email</label>
+                <input class="fs-1" type="text" id="email" name="email" onchange="checkEmail()" required><br><br>
+            </div>
+            <div class="mb-1" id="insert">
                 <label class="fs-1" for="password">Password:</label>
                 <input class="fs-1" type="password" id="password" name="password" required><br><br>
-                <button class="fs-1" type="submit" id="login-submit">Submit</button>
-            </form>
+                <button class="fs-1" type="submit" id="submit" onclick="validateUser()">Submit</button>
+                <div id="loginHint" style="color: rgb(255, 255, 255);"></div>
+            </div>
         </div>
 
     </div>
 </body>
 </html>
-<script rel="javascript" type="text/javascript">
-    const loginForm = document.getElementById("login-form");
-    const passwordForm = document.getElementById("password-form");
-    const userIdInput = document.getElementById("login-email");
-    const passwordInput = document.getElementById("password");
+<script type="text/javascript">
+    var email_resultcode;
+    var key;
+    var vi = "0000000000000000";
+    var encryptedData;
+    function checkEmail(){
+        $.ajax({
+                type: "get",
+                dataType: "json",//json or text?
+                url: "http://10.12.0.105:8088/user-login/email-login",//url
+                data:  {'email':$('#email').val()},
+                complete: function(data) {
+                    console.log(data);
+                    email_resultcode = data.responseJSON.resultCode;
+                    if(email_resultcode == "1"){//resultcode?
+                        // document.getElementById("loginHint").innerHTML="Login success!";
+                        key = data.responseJSON.data;
+                        console.log(key);
+                        return true;
+                    }else{
+                        // document.getElementById("loginHint").innerHTML="Wrong password or email.";
+                    }
+                    
+                },
+                error: function (data) {
+                    console.log(data);
+                    document.getElementById("loginHint").innerHTML="network error";
+                }
+            });
+            return false;
+    }
 
-    function validateUserId() {
-        const userId = userIdInput.value.trim();
-        if (userId.toLowerCase() === "jehan") {
-            // 如果用户ID正确，则显示密码输入表单，并将用户ID输入框禁用
-            loginForm.style.display = "none";
-            passwordForm.style.display = "block";
-            userIdInput.disabled = true;
-            passwordInput.focus();
-        } else {
-            // 如果用户ID不正确，则弹出警告框
-            alert("Please sign up first.");
+    function checkPwd() {
+        var pwd=document.getElementById("passwd").value;
+        if (pwd == ""){
+            document.getElementById("passwdHint").innerHTML="Cannot be empty.";
+            return false;
+        }
+        return true; 
+    }
+
+    function Encrypt(word, key) {
+        let iv = '0000000000000000';
+
+        key = CryptoJS.enc.Utf8.parse(key);
+        iv = CryptoJS.enc.Utf8.parse(iv);
+        let srcs = CryptoJS.enc.Utf8.parse(word);
+        // encrypt mode CBC，complement method: PKCS5Padding(PKCS7)
+        let encrypted = CryptoJS.AES.encrypt(srcs, key, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        console.log(CryptoJS.enc.Base64.stringify(encrypted.ciphertext))
+        //return base64
+        return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+    }
+
+
+    
+
+    function validateUser() {
+        if(email_resultcode == "1"){
+            encryptedData = Encrypt($('#password').val(),key);
+            
+            console.log(encryptedData);
+            $.ajax({
+                type: "get",
+                dataType: "json",//json or text?
+                url: "http://10.12.0.105:8088/user-login/password-verify",//url
+                data:  {'email':$('#email').val(),'encryptedKey':encryptedData},
+                complete: function(data) {
+                    console.log(data);
+                    resultcode = data.responseJSON.resultCode;
+                    if(resultcode == "1"){//resultcode?
+                        document.getElementById("loginHint").innerHTML="Login success!";
+                        }else{
+                            document.getElementById("loginHint").innerHTML="Wrong password or email.";
+                        }
+                },
+                error: function (data) {
+                    console.log(data);
+                    document.getElementById("loginHint").innerHTML="network error";
+                }
+            });
+        
         }
     }
 
-    passwordForm.addEventListener("submit", function(event) {
-        event.preventDefault(); // 阻止表单提交
+    
 
-        const password = passwordInput.value.trim();
-        if (password === "123456") {
-            // 如果密码正确，则重定向到home.html页面
-            window.location.href = "home.html";
-        } else {
-            // 如果密码不正确，则清空密码输入框并聚焦
-            passwordInput.value = "";
-            passwordInput.focus();
-            alert("Incorrect password. Please try again.");
-        }
-    });
+
+
+</script>
+
+
+
+<script>
+  
+
 </script>
