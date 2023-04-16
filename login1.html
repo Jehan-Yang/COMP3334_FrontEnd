@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/forge/0.10.0/forge.min.js"></script>
+    <script src="rsa.js"></script>
+    <script src="rsa_decrypt.js"></script>
+    <script src="rsa_encrypt.js"></script>
+    <script src="demo.js"></script>
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -38,6 +44,8 @@
 <script type="text/javascript">
     var email_resultcode;
     var key;
+    var server_publickey;
+    var client_key;
     var vi = "0000000000000000";
     var encryptedData;
     function checkEmail(){
@@ -93,13 +101,11 @@
         return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
     }
 
-
     
 
     function validateUser() {
         if(email_resultcode == "1"){
             encryptedData = Encrypt($('#password').val(),key);
-            
             console.log(encryptedData);
             $.ajax({
                 type: "get",
@@ -110,7 +116,17 @@
                     console.log(data);
                     resultcode = data.responseJSON.resultCode;
                     if(resultcode == "1"){//resultcode?
+                        console.log(resultcode);
                         document.getElementById("loginHint").innerHTML="Login success!";
+                        demo();
+                        server_publickey = data.responseJSON.data.publicKey;
+                        console.log(server_publickey);
+                        client_key = generateKeyPair();
+
+                        console.log("client_publickey: "+client_key[0]);
+                        console.log("client_privatekey: "+client_key[1]);
+                        Cookies.set(server_publickey, server_publickey);
+                        console.log("server_publickey: "+Cookies.get(server_publickey1));
                         }else{
                             document.getElementById("loginHint").innerHTML="Wrong password or email.";
                         }
