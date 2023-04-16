@@ -77,6 +77,11 @@
                     console.log(data);
                     jsObject = JSON.parse(data);
                     email_resultcode = jsObject.resultCode;
+                    if(email_resultcode == "1"){//resultcode?
+                            document.getElementById("codeHint").innerHTML="OK";
+                        }else{
+                            document.getElementById("codeHint").innerHTML="Email has been registered";
+                        }
                     // let data = {"name":"张三","age":"16"};
                     // var name = eval('data.name');
                     // console.log(name);
@@ -110,6 +115,7 @@
                         resultcode = jsObject.resultCode;
                         if(resultcode == "1"){//resultcode?
                             document.getElementById("codeHint").innerHTML="OK";
+                            return true;
                         }else{
                             document.getElementById("codeHint").innerHTML="Wrong code";
                         }
@@ -121,6 +127,7 @@
                 });
             }
         }
+        return false;
     }
     function checkPwd() {
         var pwd=document.getElementById("passwd").value;
@@ -142,6 +149,7 @@
             document.getElementById("repasswdHint").innerHTML="Inconsistent with previous input";
             return false;}
         document.getElementById("repasswdHint").innerHTML="OK";
+        return ture;
         }
 
     function checkEmail(){
