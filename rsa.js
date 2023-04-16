@@ -1,6 +1,6 @@
 function generateKeyPair() {
     const rsa = forge.pki.rsa;
-    const keyPair = rsa.generateKeyPair({ bits: 1024, e: 0x10001 });
+    const keyPair = rsa.generateKeyPair({ bits: 2048, e: 0x10001 });
 
     // 将公钥和私钥转换为 DER 编码格式的 Base64 字符串
     const publicKeyDer = forge.pki.publicKeyToAsn1(keyPair.publicKey);
