@@ -79,78 +79,108 @@
             });
     }
 
+
     function loadCommodity() {
-        var htmllet = "";
+        let htmllet = "";
         for (var i = 0; i < jsonArray.length; i++) {
-                htmllet += 
-                '<li id='+jsonArray[i].estateId+"" + i + '>' +
+                htmllet +=
                     '<div class="photo">' +
                         '<img src="images/'+getRandomImageName()+'">'+
-                        '	<h3>' + jsonArray[i].estateName + '</h3>' +
-                        '	<p>' + jsonArray[i].estateDescription + '</p>' +
-                        '	<p>' + jsonArray[i].estateOwnerId + '</p>' +
-                        '</div>' +
-                    '<div class="photo">' +
-                    '<div>' +
-                        '$ ' + jsonArray[i].estatePrice + 
-                    '</div>' +
-                    '<label class="fs-1" for="givenPrice">Give price:</label>'+
-                    '<input class="fs-1" type="text" id="givenPrice'+jsonArray[i].estateId+'" name="givenPrice" required>'+
+                        '<h3>' + jsonArray[i].estateName + '</h3>' +
+                        '<p>' + jsonArray[i].estateDescription + '</p >' +
+                        '<p>' + jsonArray[i].estateOwnerId + '</p >' +
+                        '<p>' + '$ ' + jsonArray[i].estatePrice +
 
-                    '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
-                        +'Purchase'
-                    +'</button>'+
-                    '</li>'+
+
+                        '<div>' +s
+                        '<button class="fs-1" type="submit" id="bid" onclick="purpur('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
+                            +'Purchase'
+                        +'</button>'+
+                        '</div>' +
                     '</div>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
     }
+    var purchase_value;
+    function purpur(estateId,sellerId,buyerId,estatePrice){
+        var popout_container = document.createElement("div")
+        popout_container.classList.add("centered-popout")
+        var popout_btncontainer = document.createElement("div")
 
+        var input = document.createElement("input");
+        input.id = "inputId"
+        var message = document.createTextNode("Bid Price:")
+        input.type = "text";
+        input.placeholder = "price in hkd";
+
+        var okButton = document.createElement("button");
+        okButton.textContent = "OK";
+        var cancelButton = document.createElement("button");
+        cancelButton.textContent = "Cancel";
+        popout_btncontainer.appendChild(okButton)
+        popout_btncontainer.appendChild(cancelButton)
+
+        popout_container.appendChild(message);
+        popout_container.appendChild(input);
+        // popout_container.appendChild(message);
+        popout_container.appendChild(popout_btncontainer);
+        document.body.appendChild(popout_container);
+
+          // 设置点击OK按钮时的处理函数
+          okButton.onclick = function() {
+              var reg = /^[0-9]*$/;
+              document.body.removeChild(popout_container);
+              if (!reg.test($('#inputId').val()) && input.value === ""){
+                  alert("Input a bid price!");
+              }else if (input.value&&input.value <= estatePrice ){
+                  console.log(input.value)
+                  alert("Your bid price is lower or equal to current price.");
+              }else{
+                 console.log("input"+input.value)
+                 Purchase(estateId,sellerId,buyerId,estatePrice);
+              }
+              // confirm("Transaction is successful!")
+          };
+
+          // 设置点击Cancel按钮时的处理函数
+          cancelButton.onclick = function() {
+            document.body.removeChild(popout_container);
+          };
+          return true;
+    }
+ 
     function Purchase(estateId,sellerId,buyerId,estatePrice){
-        // var jsonString = '{'+'\"estateId\":'+estateId+',\"sellerId\":'+sellerId+',\"buyerId\"":'+buyerId+'}';
-        // var jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"buyerId\": "+buyerId+"}";
-        var jsonString;
         var reg = /^[0-9]*$/;
 
+        console.log(purchase_value);
 
-        if ($('#givenPrice'+estateId).val()&&reg.test($('#givenPrice'+estateId).val())) {
-            jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"estatePrice\": "+$('#givenPrice'+estateId).val()+"}";
-        }else{
-            alert("Please input legal price!");
-            return false;
-        }
-        if($('#givenPrice'+estateId).val()<=estatePrice){
-            alert("Your given price is lower or equal to current price.");
-            return false;
-        }
+        var jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"estatePrice\": "+estatePrice+"}";
 
-        // var json = eval('('+jsonString+')');
-        alert("Current key:"+localStorage.getItem('server_static_publicKey'));
-        alert("Current Json: "+jsonString);
         var encrypted_json = rsaEncrypt(jsonString, localStorage.getItem('server_static_publicKey'));
-        console.log(jsonString);
-        alert(encrypted_json);
 
+        console.log(jsonString);
         $.ajax({
-                type: "get",
-                dataType: "json",//json or text?
-                url: "http://10.12.0.105:8088/transaction/request-transaction",//url
-                data:  {'userId': buyerId,'buyer_signature': encrypted_json},
-                complete: function(data) {
-                    console.log(data);
-                    var resultCode = data.responseJSON.resultCode;
-                    if (resultCode == "1"){
-                        alert("request transaction sent");
-                    } else {
-                        alert("request transaction reject: invalid request");
-                    }
-                },
-                error: function (data) {
-                    console.log(data);
-                    alert("network error");
+            type: "get",
+            dataType: "json",//json or text?
+            url: "http://10.12.0.105:8088/transaction/request-transaction",//url
+            data:  {'userId': buyerId,'buyer_signature': encrypted_json},
+            complete: function(data) {
+                console.log(data);
+                var resultCode = data.responseJSON.resultCode;
+                if (resultCode == "1"){
+                    alert("request transaction sent");
+                } else {
+                    alert("request transaction reject: invalid request");
                 }
-            });
+            },
+            error: function (data) {
+                console.log(data);
+                alert("network error");
+            }
+        });
+
+        
 
     }
 
