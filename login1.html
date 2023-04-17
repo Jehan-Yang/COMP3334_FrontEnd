@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/forge/0.10.0/forge.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
     <script src="rsa.js"></script>
     <script src="rsa_decrypt.js"></script>
     <script src="rsa_encrypt.js"></script>
     <script src="demo.js"></script>
+    <script src="Cookie.js"></script>
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -52,6 +52,13 @@
     var encrypt_publickey;
     var vi = "0000000000000000";
     var encryptedData;
+    window.onload = function(){
+        localStorage.clear();
+        // localStorage.setItem('name','Chris');
+        // var myName = localStorage.getItem('name');
+        // console.log(myName);
+    }
+
     function checkEmail(){
         $.ajax({
                 type: "get",
@@ -61,6 +68,7 @@
                 complete: function(data) {
                     console.log(data);
                     email = data.responseJSON.email;
+
                     email_resultcode = data.responseJSON.resultCode;
                     if(email_resultcode == "1"){//resultcode?
                         // document.getElementById("loginHint").innerHTML="Login success!";
@@ -115,6 +123,8 @@
             $.ajax({
                 type: "get",
                 dataType: "json",//json or text?
+                // xhrFields: {withCredentials: true},
+                // crossDomain: true,
                 url: "http://10.12.0.105:8088/user-login/password-verify",//url
                 data:  {'email':$('#email').val(),'encryptedKey':encryptedData},
                 complete: function(data) {
@@ -126,23 +136,17 @@
                         
                         server_publickey = data.responseJSON.data.publicKey;
                         id = data.responseJSON.data.id;
-                        console.log(server_publickey);
                         client_key = generateKeyPair();
-                        console.log("client_publickey: "+client_key[0]);
-                        console.log("client_privatekey: "+client_key[1]);
-                        demo(client_key[0],client_key[1])
+                        // demo(client_key[0],client_key[1])
                         // console.log(rsaDecrypt("h18an9x8IS6YA4mBenaMhIc3wiQnb6LwZHJNWFE5wCZNov68aZTgyejjJDE8eXWR/nGi8oefponV5qEEEV0iR3ce6Hk1aqrpbGcAM6DgeCN8YAZMhxRdI28pPbmHlSrbSBsQtkKNI/PrhOxApV1yOhK9o0QG2HQmP0dujDGH1wztGflwvPiz/fZqbsS8PKqqnPWYxLDjGKJIIbk/LwE1/opoKnFXXBai1UePycgvIanxSSAlb/iz1UkMBqhCl9IKE7h5AnXInp+DZNaoPpubF3Lm1CpLqHO2zpb++UWplSOFK2KPVM8KNagphWZ+yTMXkWoGX2QwjL246ZRhpbu1Zw==","MIIEowIBAAKCAQEAjZpYXtZRD3DJ7DIA5rKctOMGNPRfFZ0Z0CUH9Tw16CXhrSNisFFuwmF5Lb8m6tZ440hfevnAhfTugggKkrW5oiml58Hf0/EAfxzWflPx/sPDhf49AQfSTlkw9GXJbUwzkU3UCstccma/Whxu7NqgVvopVh/r4vpsKZgwMlY9pjq3lj9YgYU58dnEUCs+pXmHIz8xBf29B4Y11oOa0M4N0+eZhRyzhZoHODxO6xeztA8SbVuQfpeH9t5Kd4WCoaEIU74BUEt4Zj08gLZLQ4rdUUtcQkPU3PnUuU8l81nOxvweXHsPP1zF/Lu1szW+y0yqE+N7FKn8hpk4Fuk/WWALVwIDAQABAoIBAH1LVehMkJst/K1vLVb0Mi7oNoTCuiPAx6diLOF0rmpEoqR1jAxhcbSzVOsCmafvsDXDwyBoP08Ig8Yw4VIhVClF2tPvu2Koe/z9gllzY8w+YhJ8/HOd/RtwVh3attlsNLDcgcQvXxSnD6fnQst3Q6rSXaMkSa+kT/KaBAN2RcSAHHqGhHU7DFMle+ufD1PnHogrENeMf/6i0I1P5Vz/B9xYpARFkXvEvUCKvRt+zzkvFLc2VmOB9doqNjn+44XvbvnCYmdnw2VP6MlrUpFZsoLegRxuFO+qCyaNXFMqWCdtHmZbWnTfnhu5hNdWao8aZGOw7Oqo3VcCuYGm/x8VatECgYEAyrBeAQ0lVyL2BQMBUKXNQMTyXB2tlOygwodpwVmKtIXS5CZ9RJ0MiNL7dUkZYWBdq+r2YjxeLSg9facedJCqd0v+KpYKOBzR3X6PvU4BdfSkzqzG+29eSJfL0YzQQMdyUQmNdgy7wYvUPIKnDozbqKO7VpRKKQqdpu3oROrfSE8CgYEAstjhEWeDM1fpalUi/pkPzQEmFr15+DpQ6RhdzQfD87tFKE4Od3incn8xmD8lVJv8UTCXhuMylMHnphMkdl36AGJRfo86qlWvs0lidOqXeUqpMW7oSn4MO00CEwNcFSPOxKbI/Rzz63YnozaSySK+h11Iak6zrXdPzOEvNHCFwnkCgYBHKsPm9Jmuzby6J8L3cS/vVPeP9m+zQZ50jx1H4Uu9dNuGdik3xTjYddQK6164/SAGtBpMhcu/aUil7N7ZqM3h01Hr3AC8kQnzDnQj0NbcdsjDNJEtSX4+WOYcrqeUhzMRVxxPXcsy+wjLMki76CNcRBkMHkcnv+145kHOqPU7KwKBgD2ci0SEpWUdpvKTq7+LmS7lc2qoEYmbBV6Xn1DPmQiw/e0ZntA3h2/hM4OgVUrlhbGujLTSNg2bEyNaOthwHXzeYfa4ftxJMoMQB9QBMPd+6fR2oZ1v+OTA7bMBGErMECIc1uajf8Ag7xzB4yVZS8u0Lgs5W5qpnJsXBD0Lenj5AoGBAL/xBX5eSizEZ2/vVTRHcfrliRf7vPjBEnwhk5OCjXNXEjeAaU6+qsw2pjJ3+u4zMB7i3WwdcwN7VDsTXoMbdA4ia+JNNCPc00iOfjLsZxp8rXO2fNQ6fYyjJwLnIWuXLB7ewyYbtSvWXvHs/pa/a/p68aB84/mHo7ulYkTWaTuD"));
-   
-                        console.log("encryptkey: " + client_key[0]);
+                        // console.log("encryptkey: " + client_key[0]);
                         connect();
-                        Cookies.set(server_publickey, server_publickey);
-                        console.log("server_publickey: "+Cookies.get(server_publickey));
-			            var params = "id="+id;
-                        var url = "home.html?"+params;
-			            console.log("url ="+url);
-                        document.getElementById("id").value = id;
-                        window.open(url,"_blank");
-
+                        localStorage.setItem('id',id);
+                        localStorage.setItem('server_publicKey',server_publickey);
+                        localStorage.setItem('client_publicKey',client_key[0]);
+                        localStorage.setItem('client_privateKey',client_key[1]);
+                        
+			            window.open(encodeURI('./home.html?'+'id='+id));
                         }else{
                             document.getElementById("loginHint").innerHTML="Wrong password or email.";
                         }
@@ -155,12 +159,14 @@
         
         }
     }
-
+    //megan.wu@connect.polyu.hk
+    //Aa!12345
     function connect(){
         $.ajax({
                 type: "get",
                 dataType: "json",//json or text?
                 url: "http://10.12.0.105:8088/user-login/connect-establishment",//url
+                
                 data:  {'id': id,'publicKey':client_key[0]},
                 complete: function(data) {
                     console.log(data);
@@ -172,7 +178,6 @@
                     }else{
                         // document.getElementById("loginHint").innerHTML="Wrong password or email.";
                     }
-                    
                 },
                 error: function (data) {
                     console.log(data);

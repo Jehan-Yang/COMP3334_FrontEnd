@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script src="js/getUrlParam.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <!-- <script src="js/getUrlParam.js"></script>  -->
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/forge/0.10.0/forge.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
+    <script src="rsa.js"></script>
+    <script src="rsa_decrypt.js"></script>
+    <script src="rsa_encrypt.js"></script>
+    <script src="demo.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -27,44 +34,40 @@
                 </p>
             </div>
 
-            <!-- <div class="photos">
-                <div class="photo">
-                    <img class="owner" id="img1">
-                    <p class="owner" id="owner1"></p>
-                    <p class="owner" id="price1"></p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
-                </div>
-                <div class="photo">
-                    <img src="images/i2.jpeg">
-                    <p class="owner">Authority: Lucy</p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
-                </div>
-                <div class="photo">
-                    <img src="images/i3.jpeg">
-                    <p class="owner">Authority: Megan</p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
-                </div>
-                <div class="photo">
-                    <img src="images/i4.jpeg">
-                    <p class="owner">Authority: Jehan</p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
-                </div>
-                <div class="photo">
-                    <img src="images/i5.jpeg">
-                    <p class="owner">Authority: Peter</p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
-                </div>
-	        </div> -->
+            <!-- estateDescription: "i dont know"
+            estateId: 3
+            estateImage: null
+            estateName: "estate2"
+            estateOwnerId: 4
+            estatePrice: 30 -->
+            <!-- 商品列表 -->
+            <div class="row row-padded" id="commodityId">
+            
+            </div>
+
+            <!-- <div class="photos"> -->
+                <!-- <div class="photo">
+                    <p class="owner" id="Name"></p>
+                    <p class="owner" id="Id"></p>
+                    <p class="owner" id="OwnerId"></p>
+                    <p class="owner" id="Price"></p>
+                    <p class="owner" id="Description"></p>
+                    <button class="fs-1" type="submit" id="purchase" onclick="Purchase()">purchase</button>
+                </div> -->
+	        <!-- </div> -->
         </div>
     </div>
 
 </body>
 </html>
 <script>
+    var jsonArray = [];
+    
     window.onload = function(){
-        var content = window.opener.document.getElementById("id").value;
-        // var resultcode;
-	    console.log(content);
+        var id = localStorage.getItem('id');
+        var encrypted_data;
+        console.log(id);
+        var privateKey;
         
         
         $.ajax({
@@ -74,10 +77,40 @@
                 data:  {'id': id},
                 complete: function(data) {
                     console.log(data);
+                    get_data = data.responseJSON.data;
+                    privateKey = localStorage.getItem('client_privateKey');
+                    for (var i in get_data){
+                        jsonArray.push(eval(i));
+                        console.log(eval(i));
+                    }
+                    loadCommodity();
+
+
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
+    }
+    //商品列表加载方法
+    function loadCommodity() {
+        let htmllet = "";
+        for (var i = 0; i < jsonArray.length; i++) {
+                htmllet += '<li id='+jsonArray[i].estateId+"" + i + '>' +
+                    '<div class="photo">' +
+                        '<div>' +
+                        '	<h3>' + jsonArray[i].estateName + '</h3>' +
+                        '	<p>' + jsonArray[i].estateDescription + '</p>' +
+                        '	<p>' + jsonArray[i].estateOwnerId + '</p>' +
+                        '</div>' +
+                    '<div class="photo">' +
+                    '<div>' +
+                        '$ ' + jsonArray[i].estatePrice + 
+                    '</div>' +
+                    '</li>'
+        }
+        console.log(htmllet);
+        //嵌入HTML方法
+        document.getElementById("commodityId").innerHTML = htmllet;
     }
 </script>

@@ -103,7 +103,7 @@
                     type: "post",
                     dataType: "json",
                     url: "http://10.12.0.105:8088/user-login/register",//url
-                    data:  {'userEmail':$('#email').val(),'userPassword':$('#passwd').val(),'verificationCode':$('#code').val()},//user?
+                    data:  {'userEmail':$('#email').val(),'userPassword':$('#passwd').val(),'verificationCode':$('#code').val()},//aes加密？
                     complete: function(data) {
                         console.log(data);
                         verify_resultcode = data.responseJSON.resultCode;
