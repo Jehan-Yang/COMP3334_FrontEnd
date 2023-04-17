@@ -23,6 +23,7 @@
                 <a href="home.html"><button type="button">Home</button></a>
                 <a href="login1.html"><button type="button" onclick="Logout()">Log Out</button></a>
             </div>
+
         </div>
         <div class="container">
 
@@ -85,9 +86,12 @@
     function loadCommodity() {
         let htmllet = "";
         for (var i = 0; i < jsonArray.length; i++) {
-                htmllet += '<li id='+jsonArray[i].estateId+"" + i + '>' +
+                htmllet += 
+                '<div class="photos">' +
+                '<li id='+jsonArray[i].estateId+"" + i + '>' +
                     '<div class="photo">' +
                         '<div>' +
+                        '<img src="images/'+getRandomImageName()+'">'+
                         '	<h3>' + jsonArray[i].estateName + '</h3>' +
                         '	<p>' + jsonArray[i].estateDescription + '</p>' +
                         '	<p>' + jsonArray[i].estateOwnerId + '</p>' +
@@ -102,7 +106,8 @@
                     '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
                         +'Purchase'
                     +'</button>'+
-                    '</li>'
+                    '</li>'+
+                    '</div>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
@@ -152,6 +157,10 @@
             });
 
     }
+
+    function getRandomImageName(){
+				return "i"+(Math.floor(Math.random()*(5))+1)+".jpeg";
+	}
     
     function Logout(){
         localStorage.clear();

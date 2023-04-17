@@ -89,6 +89,7 @@
                 htmllet += '<li id='+jsonArray[i].estateId+"" + i + '>' +
                     '<div class="photo">' +
                         '<div>' +
+                        '<img src="images/'+getRandomImageName()+'">'+
                         '	<h3>' + jsonArray[i].estateName + '</h3>' +
                         '	<p>' + jsonArray[i].estateDescription + '</p>' +
                         '	<p>' + jsonArray[i].estateOwnerId + '</p>' +
@@ -99,14 +100,6 @@
                     '</div>' +
                     '</li>'
                 if(jsonArray[i].estateStatus == '1'){
-                    // for(var j in jsonArray[i].estateTransaction){
-                    //     htmllet += '<div>' +
-                    //         '	<p> '+jsonArray[i].estateTransaction[j].buyerID+' wants to purchase your estate, the price is '+jsonArray[i].estateTransaction[j].price+'</p>'+
-                    //         '<button class="fs-1" type="submit" id="accept'+i+'" onclick="Accept('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+')">'
-                    //             +'Accept'
-                    //         +'</button>'+
-                    //         '</div>'
-                    // }
                     htmllet += '<div>' +
                         '	<p> Someone wants to purchase your estate with price '+jsonArray[i].estatePrice+'. </p>'+
                         '<button class="fs-1" type="submit" id="accept'+i+'" onclick="Accept('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+')">'
@@ -145,6 +138,10 @@
     function sendSign(){
         
     }
+
+    function getRandomImageName(){
+				return "i"+(Math.floor(Math.random()*(5))+1)+".jpeg";
+	}
 
 
 
