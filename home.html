@@ -106,19 +106,38 @@
                     //         '</div>'
                     // }
                     htmllet += '<div>' +
-                    '	<p> Someone wants to purchase your estate! </p>'+
-                    '<button class="fs-1" type="submit" id="accept'+i+'" onclick="Accept('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+')">'
+                        '	<p> Someone wants to purchase your estate with price '+jsonArray[i].estatePrice+'. </p>'+
+                        '<button class="fs-1" type="submit" id="accept'+i+'" onclick="Accept('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+')">'
                         +'Accept'
-                    +'</button>'+
-                    '</div>'
+                        +'</button>'
+                        +'</div>'
                 }
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
     }
 
-    function Accept(){
-
+    function Accept(estateId,estateOwnerId){
+        // $.ajax({
+        //         type: "get",
+        //         dataType: "json",//json or text?
+        //         url: "http://10.12.0.105:8088/transaction/request-transaction",//url
+        //         data:  {'userId': buyerId,'buyer_signature': encrypted_json},
+        //         complete: function(data) {
+        //             console.log(data);
+        //             var resultCode = data.responseJSON.resultCode;
+        //             if (resultCode == "1"){
+        //                 alert("request transaction sent");
+        //             } else {
+        //                 alert("request transaction reject: invalid request");
+        //             }
+        //         },
+        //         error: function (data) {
+        //             console.log(data);
+        //             alert("network error");
+        //         }
+        //     });
+        // sendSign();
     }
 
     function sendSign(){

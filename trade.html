@@ -97,7 +97,7 @@
                     '<label class="fs-1" for="givenPrice">Give price:</label>'+
                     '<input class="fs-1" type="text" id="givenPrice'+jsonArray[i].estateId+'" name="givenPrice" required>'+
 
-                    '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+')">'
+                    '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
                         +'Purchase'
                     +'</button>'+
                     '</li>'
@@ -106,14 +106,19 @@
         document.getElementById("commodityId").innerHTML = htmllet;
     }
 
-    function Purchase(estateId,sellerId,buyerId){
+    function Purchase(estateId,sellerId,buyerId,estatePrice){
         // var jsonString = '{'+'\"estateId\":'+estateId+',\"sellerId\":'+sellerId+',\"buyerId\"":'+buyerId+'}';
         // var jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"buyerId\": "+buyerId+"}";
         var jsonString;
-        if ($('#givenPrice'+estateId).val()) {
+        var reg = /^[0-9]*$/;
+        if ($('#givenPrice'+estateId).val()&&reg.test($('#givenPrice'+estateId).val())) {
             jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"estatePrice\": "+$('#givenPrice'+estateId).val()+"}";
         }else{
-            alert("Input price!");
+            alert("Please input legal price!");
+            return false;
+        }
+        if($('#givenPrice'+estateId).val()<=estatePrice){
+            alert("Your given price is lower or equal to current price.");
             return false;
         }
 
