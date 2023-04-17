@@ -84,10 +84,9 @@
     }
 
     function loadCommodity() {
-        let htmllet = "";
+        var htmllet = "";
         for (var i = 0; i < jsonArray.length; i++) {
                 htmllet += 
-                '<div class="photos">' +
                 '<li id='+jsonArray[i].estateId+"" + i + '>' +
                     '<div class="photo">' +
                         '<div>' +
@@ -106,8 +105,7 @@
                     '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
                         +'Purchase'
                     +'</button>'+
-                    '</li>'+
-                    '</div>'
+                    '</li>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
@@ -118,6 +116,8 @@
         // var jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"buyerId\": "+buyerId+"}";
         var jsonString;
         var reg = /^[0-9]*$/;
+
+
         if ($('#givenPrice'+estateId).val()&&reg.test($('#givenPrice'+estateId).val())) {
             jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"estatePrice\": "+$('#givenPrice'+estateId).val()+"}";
         }else{

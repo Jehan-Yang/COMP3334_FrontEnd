@@ -30,7 +30,7 @@
                 <input class="fs-1" type="text" id="email" name="email" onchange="checkEmail()" required><br><br>
             </div>
             <div class="mb-1" id="insert">
-                <label class="fs-1" for="password">Password:</label>
+                <label class="fs-1" for="password">Password</label>
                 <input class="fs-1" type="password" id="password" name="password" required><br><br>
                 <button class="fs-1" type="submit" id="submit" onclick="validateUser()">Submit</button>
                 <div id="loginHint" style="color: rgb(255, 255, 255);"></div>
@@ -54,9 +54,6 @@
     var encryptedData;
     window.onload = function(){
         localStorage.clear();
-        // localStorage.setItem('name','Chris');
-        // var myName = localStorage.getItem('name');
-        // console.log(myName);
     }
 
     function checkEmail(){

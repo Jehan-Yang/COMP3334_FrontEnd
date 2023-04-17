@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
     <script src="rsa.js"></script>
     <script src="rsa_decrypt.js"></script>
-    <script src="rsa_encrypt.js"></script>
+    <script src="rsa_encrypt2.js"></script>
     <script src="demo.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -47,7 +47,7 @@
     </div>
 
 </body>
-</html>
+
 <script>
     var jsonArray = [];
 
@@ -84,9 +84,11 @@
     }
 
     function loadCommodity() {
-        let htmllet = "";
+        var htmllet = "";
         for (var i = 0; i < jsonArray.length; i++) {
-                htmllet += '<li id='+jsonArray[i].estateId+"" + i + '>' +
+                htmllet += 
+                
+                '<li>' +
                     '<div class="photo">' +
                         '<div>' +
                         '<img src="images/'+getRandomImageName()+'">'+
@@ -97,46 +99,79 @@
                     '<div class="photo">' +
                     '<div>' +
                         '$ ' + jsonArray[i].estatePrice + 
-                    '</div>' +
-                    '</li>'
+                    '</div>' 
                 if(jsonArray[i].estateStatus == '1'){
-                    htmllet += '<div>' +
+                    htmllet += 
+                    '<table width="100%" border="1" cellpadding="4" cellspacing="0" '+
+                    'style="BORDER-COLLAPSE: collapse" borderColor=#000000>'+
+                    '<tr>'+
+                    '<div>' +
                         '	<p> Someone wants to purchase your estate with price '+jsonArray[i].estatePrice+'. </p>'+
-                        '<button class="fs-1" type="submit" id="accept'+i+'" onclick="Accept('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+')">'
+                        '<button class="fs-1" type="submit" id="accept'+i+'" onclick="Accept('+jsonArray[i].estateOwnerId+','+jsonArray[i].estateId+')">'
                         +'Accept'
                         +'</button>'
                         +'</div>'
+                    '</tr>'+
+                    '</table>'
                 }
+                htmllet += '</li>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
     }
 
-    function Accept(estateId,estateOwnerId){
-        // $.ajax({
-        //         type: "get",
-        //         dataType: "json",//json or text?
-        //         url: "http://10.12.0.105:8088/transaction/request-transaction",//url
-        //         data:  {'userId': buyerId,'buyer_signature': encrypted_json},
-        //         complete: function(data) {
-        //             console.log(data);
-        //             var resultCode = data.responseJSON.resultCode;
-        //             if (resultCode == "1"){
-        //                 alert("request transaction sent");
-        //             } else {
-        //                 alert("request transaction reject: invalid request");
-        //             }
-        //         },
-        //         error: function (data) {
-        //             console.log(data);
-        //             alert("network error");
-        //         }
-        //     });
-        // sendSign();
+    function Accept(estateOwnerId,estateId){
+        $.ajax({
+                type: "get",
+                dataType: "json",//json or text?
+                url: "http://10.12.0.105:8088/transaction/accept-transaction",//url
+                data:  {'userId': estateOwnerId,'estateId': estateId},
+                complete: function(data) {
+                    console.log(data);
+                    var resultCode = data.responseJSON.resultCode;
+                    if (resultCode == "1"){
+                        var sign = data.responseJSON.data;
+                        console.log(sign);
+                        sendSign(sign);
+                        
+                    } else {
+                        alert(data.responseJSON.resultMsg);
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert("network error");
+                }
+            });
     }
 
-    function sendSign(){
-        
+    function sendSign(sign){
+        console.log(sign.transId);
+        var second_sign = rsaEncrypt2(sign.signature, localStorage.getItem('server_static_publicKey'));
+        console.log(second_sign[0]);
+        console.log(second_sign[1]);
+        $.ajax({
+                type: "post",
+                dataType: "json",//json or text?
+                url: "http://10.12.0.105:8088/transaction/insert-transaction",//url
+                data:  {'buyerId': sign.buyerId,'sellerId': sign.sellerId,'transString1':second_sign[0],'transString2':second_sign[1]},
+                complete: function(data) {
+                    console.log(data);
+                    var resultCode = data.responseJSON.resultCode;
+                    if (resultCode == "1"){
+                        console.log(data);
+
+                        
+                    } else {
+                        alert(data.responseJSON.resultMsg);
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert("network error");
+                }
+            });
+ 
     }
 
     function getRandomImageName(){
@@ -150,3 +185,4 @@
         // window.open(encodeURI('./login1.html'));
     }
 </script>
+</html>
