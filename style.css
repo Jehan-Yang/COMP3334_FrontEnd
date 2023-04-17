@@ -1,10 +1,16 @@
+
 .banner{
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("images/bg.png");
+    /*background-color:rgba(0,0,0,0.5);*/
+    background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url("images/bg.png");
     background-size: cover;
     background-position: center;
 }
+/*.banner image{*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*}*/
 .transaction{
     width: 100%;
     height: 100vh;
@@ -30,7 +36,7 @@
     display: inline-block;
     margin: 0 20px;
     position: relative;
-    font-family: "Andale Mono",serif;
+    font-family: "Helvetica",serif;
     font-weight: bold;
     font-size: 18px;
     background: transparent;
@@ -39,7 +45,7 @@
 /*.navbar button a{*/
 /*    text-decoration: none;*/
 /*    color: #fff;*/
-/*    font-family: "Andale Mono",serif;*/
+/*    font-family: "Helvetica",serif;*/
 /*    font-weight: bold;*/
 /*    font-size: 18px;*/
 /*}*/
@@ -64,7 +70,7 @@
     text-align: center;
     text-decoration: none;
     color: #fff;
-    font-family: "Andale Mono",serif;
+    font-family: "Helvetica",serif;
 }
 .slogan h1{
     font-size: 70px;
@@ -84,7 +90,7 @@
     transform: translateY(-50%);
     text-decoration: none;
     color: #fff;
-    font-family: "Andale Mono",serif;
+    font-family: "Helvetica",serif;
 }
 .user_info h1{
     font-size: 70px;
@@ -92,7 +98,7 @@
 }
 
 .user_info input{
-    font-family: "Andale Mono",serif;
+    font-family: "Helvetica",serif;
     color:#fff;
     background-color: transparent;
     padding-left: 8px;
@@ -101,7 +107,7 @@
     border-color: white;
 }
 .user_info button{
-    font-family: "Andale Mono",serif;
+    font-family: "Helvetica",serif;
     color: white;
     padding: 15px 25px;
     background-color: #4269e2;
@@ -118,23 +124,21 @@
 .mb-1 {
     margin-bottom: 1rem !important;
 }
-
-.container{
+.intro{
     width: 100%;
     height: 100%;
-    margin: 0;
-    scroll-snap-type: y mandatory;
-    color:#fff;
 }
-.estate{
-    position: absolute;
-    margin-top: 800px;
+.container{
 
+    width: 100%;
+    height: 100%;
+    scroll-snap-type: y mandatory;
 }
+
 .trading{
     text-align: center;
     color: #fff;
-    font-family: "Andale Mono",serif;
+    font-family: "Helvetica",serif;
     font-size: 18px;
 
 }
@@ -147,19 +151,32 @@
 	display: flex;
 	flex-wrap: wrap;
     position: center;
-    margin-top: 800px;
-    margin-left: 225px;
-    color: #000;
-    font-family: "Andale Mono",serif;
-
-}
-.photos p{
-    color: #000;
+    /*text-align: center;*/
+    color: #ffffff;
+    font-family: "Helvetica",serif;
 }
 .photo {
-	margin: 10px;
+    flex-basis: 33%;
+    margin-top: 20px;
     text-align: center;
+    margin-bottom: 50px;
 }
+
+.photo p{
+    color: #ffffff;
+}
+.photo button{
+    font-family: "Helvetica",serif;
+    color: white;
+    padding: 15px 25px;
+    background-color: #4269e2;
+    border-radius: 18px;
+    border: 1px solid white;
+}
+/*.photos p{*/
+/*    color: #ffffff;*/
+/*    text-align: center;*/
+/*}*/
 
 .photo img {
 	width: 300px;
@@ -172,3 +189,34 @@
     width: 300px;
 	height: 300px;
 }
+.centered-popout {
+    font-family: "Helvetica",serif;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    text-align: center;
+}
+.centered-popout button{
+
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 100px;
+    height: 30px;
+    font-size: 16px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+}
+
+.centered-popout button:first-child{
+    background-color: #4269e2;
+    color: white;
+    margin-right: 10px;
+}
+
+

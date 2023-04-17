@@ -15,7 +15,7 @@
     <script src="demo.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body style="background-color: #002C6D;">
     <div class = "banner">
         <div class = "navbar">
             <img src="images/logo.png" class="logo" alt="logo">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="container">
-
+            <div class = "intro">
             <div class="slogan">
                 <h1>Start Your Trade</h1>
                 <p>More than 100 building and housing projects that we have offered.
@@ -33,31 +33,51 @@
                     <br>because our platform brings you unique experience.
                 </p>
             </div>
-
-            <!-- estateDescription: "i dont know"
-            estateId: 3
-            estateImage: null
-            estateName: "estate2"
-            estateOwnerId: 4
-            estatePrice: 30 -->
-            <!-- 商品列表 -->
-            <div class="row row-padded" id="commodityId">
-            
-            </div>
-
-            <!-- <div class="photos"> -->
-                <!-- <div class="photo">
-                    <p class="owner" id="Name"></p>
-                    <p class="owner" id="Id"></p>
-                    <p class="owner" id="OwnerId"></p>
-                    <p class="owner" id="Price"></p>
-                    <p class="owner" id="Description"></p>
-                    <button class="fs-1" type="submit" id="purchase" onclick="Purchase()">purchase</button>
-                </div> -->
-	        <!-- </div> -->
         </div>
+            <div class="photos">
+                <div class="photo">
+                    <img src="images/i1.jpeg">
+                    <p> Authority: <span id="authority1"></span></p>
+                    <p> Price: <span id="price1"></span></p>
+                    <p>Description: <span id="disc1"></span></p>
+                    <button class="btn" type="button" id="House1">Purchase</button>
+<!--                    <a href="maketransaction.html"><p class="purchase" id="purchase1">Purchase</p></a>-->
+                </div>
+                <div class="photo">
+                    <img src="images/i2.jpeg">
+                    <p>Authority: <span id="authority2"></span></p>
+                    <p>Price: <span id="price2"></span></p>
+                    <p>Description: <span id="disc2"></span></p>
+                    <button class="btn" type="button" id="House2">Purchase</button>
+                </div>
+                <div class="photo">
+                    <img src="images/i3.jpeg">
+                    <p>Authority: <span id="authority3"></span></p>
+                    <p>Price: <span id="price3"></span></p>
+                    <p>Description: <span id="disc3"></span></p>
+                    <button class="btn" type="button" id="House3">Purchase</button>
+                </div>
+                <div class="photo">
+                    <img src="images/i4.jpeg">
+                    <p>Authority: <span id="authority4"></span></p>
+                    <p>Price: <span id="price4"></span></p>
+                    <p>Description: <span id="disc4"></span></p>
+                    <button class="btn" type="button" id="House4">Purchase</button>
+                </div>
+                <div class="photo">
+                    <img src="images/i5.jpeg">
+                    <p>Authority: <span id="authority5"></span></p>
+                    <p>Price: <span id="price5"></span></p>
+                    <p>Description: <span id="disc5"></span></p>
+                    <button class="btn" type="button" id="House5">Purchase</button>
+                </div>
+	        </div>
+        </div>
+
     </div>
 
+    <script type="text/javascript" src="houseinfo.js"></script>
+    <script type="text/javascript" src="makeTransaction.js"></script>
 </body>
 </html>
 <script>
