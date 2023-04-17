@@ -45,7 +45,9 @@
     var key;
     var id;
     var email;
-    var server_publickey;
+    var server_dynamic_publickey;
+    var server_static_publickey;
+    
     var client_key;
     var encrypt_publickey;
     var vi = "0000000000000000";
@@ -133,13 +135,15 @@
                         // console.log(resultcode);
                         document.getElementById("loginHint").innerHTML="Login success!";
                         
-                        server_publickey = data.responseJSON.data.publicKey;
+                        server_dynamic_publickey = data.responseJSON.data.dynamicPublicKey;
+                        server_static_publickey = data.responseJSON.data.staticPublicKey;
                         id = data.responseJSON.data.id;
                         client_key = generateKeyPair();
                         demo(client_key[0],client_key[1])
                         connect();
                         localStorage.setItem('id',id);
-                        localStorage.setItem('server_publicKey',server_publickey);
+                        localStorage.setItem('server_dynamic_publicKey',server_dynamic_publickey);
+                        localStorage.setItem('server_static_publicKey',server_static_publickey);
                         localStorage.setItem('client_publicKey',client_key[0]);
                         localStorage.setItem('client_privateKey',client_key[1]);
                         

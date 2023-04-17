@@ -109,6 +109,7 @@
                         if(verify_resultcode == "1"){//resultcode?
                             document.getElementById("codeHint").innerHTML="OK";
                             alert("Sign up completed.");
+                            window.open(encodeURI('./login1.html'), "_self");
                             return true;
                         }else{
                             document.getElementById("codeHint").innerHTML="Wrong code";

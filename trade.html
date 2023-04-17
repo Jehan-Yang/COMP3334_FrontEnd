@@ -94,6 +94,9 @@
                     '<div>' +
                         '$ ' + jsonArray[i].estatePrice + 
                     '</div>' +
+                    '<label class="fs-1" for="givenPrice">Give price:</label>'+
+                    '<input class="fs-1" type="text" id="givenPrice'+jsonArray[i].estateId+'" name="givenPrice" required>'+
+
                     '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+')">'
                         +'Purchase'
                     +'</button>'+
@@ -104,9 +107,42 @@
     }
 
     function Purchase(estateId,sellerId,buyerId){
-        var jsonString = '{'+'\'estateId\':\''+estateId+'\',\'sellerId\':\''+estateOwnerId+'\',\'buyerId\':\''+buyerId+'}';
-        var json = eval(jsonString);
+        // var jsonString = '{'+'\"estateId\":'+estateId+',\"sellerId\":'+sellerId+',\"buyerId\"":'+buyerId+'}';
+        // var jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"buyerId\": "+buyerId+"}";
+        var jsonString;
+        if ($('#givenPrice'+estateId).val()) {
+            jsonString = "{\"estateId\": "+estateId+", \"sellerId\": "+sellerId+", \"estatePrice\": "+$('#givenPrice'+estateId).val()+"}";
+        }else{
+            alert("Input price!");
+            return false;
+        }
+
+        // var json = eval('('+jsonString+')');
+        alert("Current key:"+localStorage.getItem('server_static_publicKey'));
+        alert("Current Json: "+jsonString);
+        var encrypted_json = rsaEncrypt(jsonString, localStorage.getItem('server_static_publicKey'));
         console.log(jsonString);
+        alert(encrypted_json);
+
+        $.ajax({
+                type: "get",
+                dataType: "json",//json or text?
+                url: "http://10.12.0.105:8088/transaction/request-transaction",//url
+                data:  {'userId': buyerId,'buyer_signature': encrypted_json},
+                complete: function(data) {
+                    console.log(data);
+                    var resultCode = data.responseJSON.resultCode;
+                    if (resultCode == "1"){
+                        alert("request transaction sent");
+                    } else {
+                        alert("request transaction reject: invalid request");
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert("network error");
+                }
+            });
 
     }
     
