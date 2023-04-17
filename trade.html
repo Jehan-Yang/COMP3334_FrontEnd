@@ -39,17 +39,13 @@
 
             
 
-            <div class="photos">
-                <div class="row row-padded" id="commodityId">
-            
-                </div>
-	        </div>
+<!--            <div class="photos">-->
+<!--                <div class="row row-padded" id="commodityId"></div>-->
+<!--	        </div>-->
+            <div class="photos" id="commodityId"></div>
         </div>
     </div>
-
-</body>
-</html>
-<script>
+    <script>
     var jsonArray = [];
     var id;
 
@@ -58,8 +54,8 @@
         var encrypted_data;
         console.log(id);
         var privateKey;
-        
-        
+
+
         $.ajax({
                 type: "get",
                 dataType: "json",//json or text?
@@ -89,7 +85,6 @@
                 htmllet += 
                 '<li id='+jsonArray[i].estateId+"" + i + '>' +
                     '<div class="photo">' +
-                        '<div>' +
                         '<img src="images/'+getRandomImageName()+'">'+
                         '	<h3>' + jsonArray[i].estateName + '</h3>' +
                         '	<p>' + jsonArray[i].estateDescription + '</p>' +
@@ -105,7 +100,8 @@
                     '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
                         +'Purchase'
                     +'</button>'+
-                    '</li>'
+                    '</li>'+
+                    '</div>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
@@ -161,7 +157,7 @@
     function getRandomImageName(){
 				return "i"+(Math.floor(Math.random()*(5))+1)+".jpeg";
 	}
-    
+
     function Logout(){
         localStorage.clear();
         // window.open(encodeURI('./login1.html'));
@@ -170,3 +166,5 @@
 
 
 </script>
+</body>
+</html>

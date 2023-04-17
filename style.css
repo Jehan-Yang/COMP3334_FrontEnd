@@ -95,7 +95,7 @@
 .user_info input{
     font-family: "Helvetica",serif;
     color:#fff;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.25);
     padding-left: 8px;
     border-radius: 8px;
     border-style: groove;
@@ -160,6 +160,16 @@
 .photo p{
     color: #ffffff;
 }
+.photo input{
+    font-family: "Helvetica",serif;
+    color:#fff;
+    background-color: transparent;
+    padding-left: 8px;
+    border-radius: 8px;
+    border-style: groove;
+    border-color: white;
+    margin-left: 5px;
+}
 .photo button{
     font-family: "Helvetica",serif;
     color: white;
@@ -167,6 +177,7 @@
     background-color: #4269e2;
     border-radius: 18px;
     border: 1px solid white;
+    margin-top: 10px;
 }
 /*.photos p{*/
 /*    color: #ffffff;*/
