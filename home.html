@@ -39,11 +39,6 @@
             <div class="photos" id="commodityId"></div>
 
 
-            <div class="photos">
-                <div class="photos" id="commodityId">
-            
-                </div>
-	        </div>
         </div>
     </div>
 
@@ -89,17 +84,15 @@
         for (var i = 0; i < jsonArray.length; i++) {
                 htmllet += 
                 
-                '<li>' +
+                // '<li>' +
                     '<div class="photo">' +
-                        '<div>' +
+                        // '<div>' +
                         '<img src="images/'+getRandomImageName()+'">'+
                         '	<h3>' + jsonArray[i].estateName + '</h3>' +
                         '	<p>' + jsonArray[i].estateDescription + '</p>' +
                         '	<p>' + jsonArray[i].estateOwnerId + '</p>' +
-                        '</div>' +
-                    '<div class="photo">' +
-                    '<div>' +
                         '$ ' + jsonArray[i].estatePrice + 
+                        // '</div>' +
                     '</div>' 
                 if(jsonArray[i].estateStatus == '1'){
                     htmllet += 
@@ -115,7 +108,7 @@
                     '</tr>'+
                     '</table>'
                 }
-                htmllet += '</li>'
+                // htmllet += '</li>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
