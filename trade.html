@@ -15,17 +15,17 @@
     <script src="demo.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="background-color: #002C6D;">
+<body>
     <div class = "banner">
         <div class = "navbar">
             <img src="images/logo.png" class="logo" alt="logo">
             <div>
                 <a href="home.html"><button type="button">Home</button></a>
-                <a href="index.html"><button type="button" onclick="deleteKey()">Log Out</button></a>
+                <a href="login1.html"><button type="button" onclick="Logout()">Log Out</button></a>
             </div>
         </div>
         <div class="container">
-            <div class = "intro">
+
             <div class="slogan">
                 <h1>Start Your Trade</h1>
                 <p>More than 100 building and housing projects that we have offered.
@@ -33,58 +33,25 @@
                     <br>because our platform brings you unique experience.
                 </p>
             </div>
-        </div>
+
+            
+
             <div class="photos">
-                <div class="photo">
-                    <img src="images/i1.jpeg">
-                    <p> Authority: <span id="authority1"></span></p>
-                    <p> Price: <span id="price1"></span></p>
-                    <p>Description: <span id="disc1"></span></p>
-                    <button class="btn" type="button" id="House1">Purchase</button>
-<!--                    <a href="maketransaction.html"><p class="purchase" id="purchase1">Purchase</p></a>-->
-                </div>
-                <div class="photo">
-                    <img src="images/i2.jpeg">
-                    <p>Authority: <span id="authority2"></span></p>
-                    <p>Price: <span id="price2"></span></p>
-                    <p>Description: <span id="disc2"></span></p>
-                    <button class="btn" type="button" id="House2">Purchase</button>
-                </div>
-                <div class="photo">
-                    <img src="images/i3.jpeg">
-                    <p>Authority: <span id="authority3"></span></p>
-                    <p>Price: <span id="price3"></span></p>
-                    <p>Description: <span id="disc3"></span></p>
-                    <button class="btn" type="button" id="House3">Purchase</button>
-                </div>
-                <div class="photo">
-                    <img src="images/i4.jpeg">
-                    <p>Authority: <span id="authority4"></span></p>
-                    <p>Price: <span id="price4"></span></p>
-                    <p>Description: <span id="disc4"></span></p>
-                    <button class="btn" type="button" id="House4">Purchase</button>
-                </div>
-                <div class="photo">
-                    <img src="images/i5.jpeg">
-                    <p>Authority: <span id="authority5"></span></p>
-                    <p>Price: <span id="price5"></span></p>
-                    <p>Description: <span id="disc5"></span></p>
-                    <button class="btn" type="button" id="House5">Purchase</button>
+                <div class="row row-padded" id="commodityId">
+            
                 </div>
 	        </div>
         </div>
-
     </div>
 
-    <script type="text/javascript" src="houseinfo.js"></script>
-    <script type="text/javascript" src="makeTransaction.js"></script>
 </body>
 </html>
 <script>
     var jsonArray = [];
-    
+    var id;
+
     window.onload = function(){
-        var id = localStorage.getItem('id');
+        id = localStorage.getItem('id');
         var encrypted_data;
         console.log(id);
         var privateKey;
@@ -93,26 +60,26 @@
         $.ajax({
                 type: "get",
                 dataType: "json",//json or text?
-                url: "http://10.12.0.105:8088/estate/request-self-estate-info",//url
+                url: "http://10.12.0.105:8088/estate/request-all-estate-info",//url
                 data:  {'id': id},
                 complete: function(data) {
                     console.log(data);
                     get_data = data.responseJSON.data;
                     privateKey = localStorage.getItem('client_privateKey');
                     for (var i in get_data){
-                        jsonArray.push(eval(i));
-                        console.log(eval(i));
+                        console.log(jsonArray);
+                        jsonArray.push(eval(get_data[i]));
+                        console.log(eval(get_data[i]));
                     }
+                    console.log(jsonArray);
                     loadCommodity();
-
-
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
     }
-    //商品列表加载方法
+
     function loadCommodity() {
         let htmllet = "";
         for (var i = 0; i < jsonArray.length; i++) {
@@ -127,25 +94,27 @@
                     '<div>' +
                         '$ ' + jsonArray[i].estatePrice + 
                     '</div>' +
-                    '</li>'
-                if(jsonArray[i].estateStatus == '1'){
-                    htmllet += '<div>' +
-                    '	<p> Someone wants to purchase your estate! </p>'+
-                    '<button class="fs-1" type="submit" id="accept'+i+'">'
-                        +'Accept'
+                    '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+')">'
+                        +'Purchase'
                     +'</button>'+
-                    '</div>'
-                }
+                    '</li>'
         }
         console.log(htmllet);
-        //嵌入HTML方法
         document.getElementById("commodityId").innerHTML = htmllet;
     }
 
+    function Purchase(estateId,sellerId,buyerId){
+        var jsonString = '{'+'\'estateId\':\''+estateId+'\',\'sellerId\':\''+estateOwnerId+'\',\'buyerId\':\''+buyerId+'}';
+        var json = eval(jsonString);
+        console.log(jsonString);
 
-
+    }
+    
     function Logout(){
         localStorage.clear();
         // window.open(encodeURI('./login1.html'));
     }
+
+
+
 </script>

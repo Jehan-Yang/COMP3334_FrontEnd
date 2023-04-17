@@ -5,12 +5,12 @@
     <title>Title</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body style="background-color: #002C6D;">
     <div class = "banner">
         <div class = "navbar">
             <img src="images/logo.png" class="logo" alt="logo">
             <div>
-                <a href="index.html"><button type="button">Home</button></a>
+                <a href="home.html"><button type="button">Home</button></a>
                 <a href="login1.html"><button type="button">Log In</button></a>
                 <a href="signup.html"><button type="button">Sign Up</button></a>
             </div>
@@ -22,47 +22,56 @@
 <!--            </ul>-->
         </div>
 
-        <div class="slogan">
-            <h1>Start Your Trade</h1>
-            <p>More than 100 building and housing projects that we have offered.
-                <br>The building owner chose us over other trading platform around the world,
-                <br>because our platform brings you unique experience.
-            </p>
+        <div class="container">
+            <div class = "intro">
+            <div class="slogan">
+                <h1>Start Your Trade</h1>
+                <p>More than 100 building and housing projects that we have offered.
+                    <br>The building owner chose us over other trading platform around the world,
+                    <br>because our platform brings you unique experience.
+                </p>
+            </div>
         </div>
-
-        <div class="photos">
+            <div class="photos">
                 <div class="photo">
-                    <img class="owner" id="img1" src="images/i1.jpeg">
-                    <p class="owner" id="owner1" ></p>
-                    <p class="owner" id="price1"></p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
+                    <img src="images/i1.jpeg">
+                    <p> Authority: <span id="authority1"></span></p>
+                    <p> Price: <span id="price1"></span></p>
+                    <p>Description: <span id="disc1"></span></p>
+                    <a href="login1.html"><button class="btn" type="button">Purchase</button></a>
+<!--                    <a href="maketransaction.html"><p class="purchase" id="purchase1">Purchase</p></a>-->
                 </div>
                 <div class="photo">
-                    <img class="owner" id="img2" src="images/i2.jpeg">
-                    <p class="owner" id="owner2"></p>
-                    <p class="owner" id="price2"></p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
+                    <img src="images/i2.jpeg">
+                    <p>Authority: <span id="authority2"></span></p>
+                    <p>Price: <span id="price2"></span></p>
+                    <p>Description: <span id="disc2"></span></p>
+                    <a href="login1.html"><button class="btn" type="button">Purchase</button></a>
                 </div>
                 <div class="photo">
-                    <img class="owner" id="img3" src="images/i3.jpeg">
-                    <p class="owner" id="owner3"></p>
-                    <p class="owner" id="price3"></p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
+                    <img src="images/i3.jpeg">
+                    <p>Authority: <span id="authority3"></span></p>
+                    <p>Price: <span id="price3"></span></p>
+                    <p>Description: <span id="disc3"></span></p>
+                    <a href="login1.html"><button class="btn" type="button">Purchase</button></a>
                 </div>
                 <div class="photo">
-                    <img class="owner" id="img4" src="images/i4.jpeg">
-                    <p class="owner" id="owner4"></p>
-                    <p class="owner" id="price4"></p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
+                    <img src="images/i4.jpeg">
+                    <p>Authority: <span id="authority4"></span></p>
+                    <p>Price: <span id="price4"></span></p>
+                    <p>Description: <span id="disc4"></span></p>
+                    <a href="login1.html"><button class="btn" type="button">Purchase</button></a>
                 </div>
                 <div class="photo">
-                    <img class="owner" id="img5" src="images/i5.jpeg">
-                    <p class="owner" id="owner5" ></p>
-                    <p class="owner" id="price5"></p>
-                    <a href="tradeinfo.html"><p class="purchase">Purchase</p></a>
+                    <img src="images/i5.jpeg">
+                    <p>Authority: <span id="authority5"></span></p>
+                    <p>Price: <span id="price5"></span></p>
+                    <p>Description: <span id="disc5"></span></p>
+                    <a href="login1.html"><button class="btn" type="button">Purchase</button></a>
                 </div>
 	        </div>
-            <script type="text/javascript" src="script.js"></script>
+        </div>
+            <script type="text/javascript" src="houseinfo.js"></script>
     </div>
 </body>
 </html>
