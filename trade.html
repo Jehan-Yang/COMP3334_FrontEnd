@@ -20,7 +20,7 @@
         <div class = "navbar">
             <img src="images/logo.png" class="logo" alt="logo">
             <div>
-                <a href="trade.html"><button type="button">Trade</button></a>
+                <a href="home.html"><button type="button">Home</button></a>
                 <a href="login1.html"><button type="button" onclick="Logout()">Log Out</button></a>
             </div>
         </div>
@@ -37,7 +37,7 @@
             
 
             <div class="photos">
-                <div class="photos" id="commodityId">
+                <div class="row row-padded" id="commodityId">
             
                 </div>
 	        </div>
@@ -48,9 +48,10 @@
 </html>
 <script>
     var jsonArray = [];
+    var id;
 
     window.onload = function(){
-        var id = localStorage.getItem('id');
+        id = localStorage.getItem('id');
         var encrypted_data;
         console.log(id);
         var privateKey;
@@ -59,7 +60,7 @@
         $.ajax({
                 type: "get",
                 dataType: "json",//json or text?
-                url: "http://10.12.0.105:8088/estate/request-self-estate-info",//url
+                url: "http://10.12.0.105:8088/estate/request-all-estate-info",//url
                 data:  {'id': id},
                 complete: function(data) {
                     console.log(data);
@@ -72,8 +73,6 @@
                     }
                     console.log(jsonArray);
                     loadCommodity();
-                    
-
                 },
                 error: function (data) {
                     console.log(data);
@@ -95,24 +94,27 @@
                     '<div>' +
                         '$ ' + jsonArray[i].estatePrice + 
                     '</div>' +
-                    '</li>'
-                if(jsonArray[i].estateStatus == '1'){
-                    htmllet += '<div>' +
-                    '	<p> Someone wants to purchase your estate! </p>'+
-                    '<button class="fs-1" type="submit" id="accept'+i+'">'
-                        +'Accept'
+                    '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+')">'
+                        +'Purchase'
                     +'</button>'+
-                    '</div>'
-                }
+                    '</li>'
         }
         console.log(htmllet);
         document.getElementById("commodityId").innerHTML = htmllet;
     }
 
+    function Purchase(estateId,sellerId,buyerId){
+        var jsonString = '{'+'\'estateId\':\''+estateId+'\',\'sellerId\':\''+estateOwnerId+'\',\'buyerId\':\''+buyerId+'}';
+        var json = eval(jsonString);
+        console.log(jsonString);
 
-
+    }
+    
     function Logout(){
         localStorage.clear();
         // window.open(encodeURI('./login1.html'));
     }
+
+
+
 </script>
