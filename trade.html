@@ -39,17 +39,13 @@
 
             
 
-            <div class="photos">
-                <div class="row row-padded" id="commodityId">
-            
-                </div>
-	        </div>
+<!--            <div class="photos">-->
+<!--                <div class="row row-padded" id="commodityId"></div>-->
+<!--	        </div>-->
+            <div class="photos" id="commodityId"></div>
         </div>
     </div>
-
-</body>
-</html>
-<script>
+    <script>
     var jsonArray = [];
     var id;
 
@@ -58,8 +54,8 @@
         var encrypted_data;
         console.log(id);
         var privateKey;
-        
-        
+
+
         $.ajax({
                 type: "get",
                 dataType: "json",//json or text?
@@ -86,27 +82,24 @@
     function loadCommodity() {
         let htmllet = "";
         for (var i = 0; i < jsonArray.length; i++) {
-                htmllet += 
-                '<div class="photos">' +
-                '<li id='+jsonArray[i].estateId+"" + i + '>' +
+                htmllet +=
                     '<div class="photo">' +
-                        '<div>' +
                         '<img src="images/'+getRandomImageName()+'">'+
-                        '	<h3>' + jsonArray[i].estateName + '</h3>' +
-                        '	<p>' + jsonArray[i].estateDescription + '</p>' +
-                        '	<p>' + jsonArray[i].estateOwnerId + '</p>' +
-                        '</div>' +
-                    '<div class="photo">' +
-                    '<div>' +
-                        '$ ' + jsonArray[i].estatePrice + 
-                    '</div>' +
-                    '<label class="fs-1" for="givenPrice">Give price:</label>'+
-                    '<input class="fs-1" type="text" id="givenPrice'+jsonArray[i].estateId+'" name="givenPrice" required>'+
+                        '<h3>' + jsonArray[i].estateName + '</h3>' +
+                        '<p>' + jsonArray[i].estateDescription + '</p>' +
+                        '<p>' + jsonArray[i].estateOwnerId + '</p>' +
+                        '<p>' + '$ ' + jsonArray[i].estatePrice +
 
-                    '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
-                        +'Purchase'
-                    +'</button>'+
-                    '</li>'+
+                        '<div>' +
+                        '<label class="fs-1" for="givenPrice">Bid:</label>'+
+                        '<input class="fs-1" type="text" id="givenPrice'+jsonArray[i].estateId+'" name="givenPrice" required>'+
+                        '</div>' +
+
+                        '<div>' +
+                        '<button class="fs-1" type="submit" id="submit" onclick="Purchase('+jsonArray[i].estateId+','+jsonArray[i].estateOwnerId+','+id+','+jsonArray[i].estatePrice+')">'
+                            +'Purchase'
+                        +'</button>'+
+                        '</div>' +
                     '</div>'
         }
         console.log(htmllet);
@@ -161,7 +154,7 @@
     function getRandomImageName(){
 				return "i"+(Math.floor(Math.random()*(5))+1)+".jpeg";
 	}
-    
+
     function Logout(){
         localStorage.clear();
         // window.open(encodeURI('./login1.html'));
@@ -170,3 +163,5 @@
 
 
 </script>
+</body>
+</html>
